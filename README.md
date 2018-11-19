@@ -6,4 +6,4 @@ This project represents simple blog on django framework
 ```
 $ python3 manage.py runserver 5000
 ```
-Instead of 5000 possible to use any other port
+Instead of 5000 possible to use any other port even default 8000
