@@ -4,9 +4,12 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
 from django.views.generic import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from .models import Post, Tag
 from .utils import ObjectDetailMixin, ObjectUpdateMixin, ObjectCreateMixin, ObjectDeleteMixin
 from .forms import TagForm, PostForm
+
 
 # Create your views here.
 def posts_list(request):
@@ -36,10 +39,11 @@ class TagDetail(ObjectDetailMixin, View):
     #     return render(request, 'blog/tag_detail.html', context={'tag':tag})
 
 
-class PostCreate(ObjectCreateMixin, View):
+class PostCreate(LoginRequiredMixin, ObjectCreateMixin, View):
     model = Post
     model_form = PostForm
     template = 'blog/post_create_form.html'
+    raise_exception = True
 
     # def get(self, request):
     #     form = PostForm()
@@ -54,16 +58,18 @@ class PostCreate(ObjectCreateMixin, View):
 
 
 
-class PostUpdate(ObjectUpdateMixin, View):
+class PostUpdate(LoginRequiredMixin, ObjectUpdateMixin, View):
     model = Post
     model_form = PostForm
     template = 'blog/post_update_form.html'
+    raise_exception = True
 
 
-class TagCreate(ObjectCreateMixin, View):
+class TagCreate(LoginRequiredMixin, ObjectCreateMixin, View):
     model = Tag
     model_form = TagForm
     template = 'blog/tag_create.html'
+    raise_exception = True
 
     # def get(delf, request):
     #     form = TagForm()
@@ -76,10 +82,11 @@ class TagCreate(ObjectCreateMixin, View):
     #     return render(request, 'blog/tag_create.html', context={'form':bound_form})
 
 
-class TagUpdate(ObjectUpdateMixin, View):
+class TagUpdate(LoginRequiredMixin, ObjectUpdateMixin, View):
     model = Tag
     model_form = TagForm
     template = 'blog/tag_update_form.html'
+    raise_exception = True
 
     # def get(self, request, slug):
     #     tag = Tag.objects.get(slug__iexact=slug)
@@ -106,10 +113,11 @@ def tags_list(request):
 #     tag = Tag.objects.get(slug__iexact=slug)
 #     return render(request, 'blog/tag_detail.html', context={'tag':tag})
 
-class TagDelete(ObjectDeleteMixin, View):
+class TagDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     model = Tag
     template = 'blog/tag_delete_form.html'
     redirect_url = 'tags_list_url'
+    raise_exception = True
 
     # def get(self, request, slug):
     #     tag = Tag.objects.get(slug__iexact=slug)
@@ -121,7 +129,9 @@ class TagDelete(ObjectDeleteMixin, View):
     #     return redirect(reverse('tags_list_url'))
 
 
-class PostDelete(ObjectDeleteMixin, View):
+class PostDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     model = Post
     template = 'blog/post_delete_form.html'
     redirect_url = 'posts_list_url'
+    raise_exception = True
+    
