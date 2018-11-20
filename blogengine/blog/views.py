@@ -10,7 +10,7 @@ from .forms import TagForm, PostForm
 
 # Create your views here.
 def posts_list(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-date_pub',)
     return render(request, 'blog/index.html', context={'posts':posts})
 
 
